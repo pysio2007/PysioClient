@@ -1,6 +1,9 @@
 package net.minecraft.client.multiplayer;
 
 import com.google.common.collect.Lists;
+
+import PysioClient.serverDatafea;
+
 import java.io.File;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -33,6 +36,7 @@ public class ServerList
         try
         {
             this.servers.clear();
+            LoadFeaServer();
             NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
 
             if (nbttagcompound == null)
@@ -53,7 +57,23 @@ public class ServerList
         }
     }
 
-    /**
+    private void LoadFeaServer() {
+		// TODO 自动生成的方法存根
+    	this.addServerData(new serverDatafea("Hypixel", "mc.hypixel.net"));
+		
+	}
+    
+    public int getDeaServerCount() {
+    	int count = 0;
+    	for(ServerData sd : this.servers) {
+    		if(sd instanceof serverDatafea) {
+    			count++;
+    		}
+    	}
+    	return count;
+    }
+
+	/**
      * Runs getNBTCompound on each ServerData instance, puts everything into a "servers" NBT list and writes it to
      * servers.dat.
      */
@@ -65,7 +85,10 @@ public class ServerList
 
             for (ServerData serverdata : this.servers)
             {
-                nbttaglist.appendTag(serverdata.getNBTCompound());
+                if(!(serverdata instanceof serverDatafea)) {
+                	nbttaglist.appendTag(serverdata.getNBTCompound());
+                }
+            	
             }
 
             NBTTagCompound nbttagcompound = new NBTTagCompound();

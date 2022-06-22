@@ -2,6 +2,8 @@ package net.minecraft.client.gui;
 
 import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
+import PysioClient.serverDatafea;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.Unpooled;
@@ -74,7 +76,13 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
                 }
             });
         }
-
+        
+        
+        boolean isFeaServer  = this.server  instanceof serverDatafea;  //注册服务器
+        if(isFeaServer) {
+        	drawImg(x, y, false, serverDatafea.STAR_ICON);
+        }
+        
         boolean flag = this.server.version > 47;
         boolean flag1 = this.server.version < 47;
         boolean flag2 = flag || flag1;
@@ -228,7 +236,13 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
         }
     }
 
-    protected void drawTextureAt(int p_178012_1_, int p_178012_2_, ResourceLocation p_178012_3_)
+    private void drawImg(int x, int y, boolean lower, ResourceLocation texture) {
+		// TODO 自动生成的方法存根
+		this.mc.getTextureManager().bindTexture(texture);
+		Gui.drawModalRectWithCustomSizedTexture(x - 16, lower ? y +16 : y, 0.0F, 0.0F,16, 16, 16, 16);
+	}
+
+	protected void drawTextureAt(int p_178012_1_, int p_178012_2_, ResourceLocation p_178012_3_)
     {
         this.mc.getTextureManager().bindTexture(p_178012_3_);
         GlStateManager.enableBlend();

@@ -1,0 +1,5 @@
+package PysioClient;
+
+public class ServerData extends ServerData{
+
+}
